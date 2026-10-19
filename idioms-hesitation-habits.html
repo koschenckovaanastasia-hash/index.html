@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioms — Hesitation, Habits &amp; Letting Go</title>
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface-2: #edeae2;
+    --text: #1a1a18;
+    --text-soft: #5a5850;
+    --text-muted: #9a9688;
+    --accent: #3b4fa8;
+    --accent-light: #eaecf8;
+    --accent-mid: #5568c0;
+    --border: #d8d4ca;
+    --border-soft: #ebe8e0;
+    --danger-bg: #fdf0f0;
+    --danger: #b03030;
+    --success-bg: #edf5f0;
+    --success: #2d6b42;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .hero {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: .75rem;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: .5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 2.5rem;
+  }
+
+  .nav-btn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 14px;
+    cursor: pointer;
+    color: var(--text-soft);
+    transition: all .15s;
+  }
+
+  .nav-btn:hover { background: var(--surface); color: var(--text); border-color: var(--text-muted); }
+  .nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .sec-header { margin-bottom: 1.5rem; }
+  .sec-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: .3rem;
+  }
+  .sec-desc {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  /* FLASHCARDS */
+  .fc-meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .fc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .fc-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.4rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: all .15s;
+    user-select: none;
+  }
+
+  .fc-card:hover { border-color: var(--border); box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .fc-card.flipped { background: var(--accent-light); border-color: var(--accent-mid); }
+
+  .fc-front { width: 100%; }
+
+  .fc-front-phrase {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .6rem;
+  }
+
+  .fc-front-def {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: .85rem;
+  }
+
+  .fc-front-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .35rem;
+    margin-top: .75rem;
+  }
+
+  .fc-front-gap {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: .4rem;
+  }
+
+  .fc-front-gap .gap {
+    display: inline-block;
+    min-width: 130px;
+    border-bottom: 1.5px solid var(--border);
+    margin: 0 3px;
+    vertical-align: bottom;
+  }
+
+  .fc-front-hint {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1rem;
+  }
+
+  .fc-emoji {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: .75rem;
+    display: block;
+  }
+
+  .fc-back-emoji {
+    font-size: 22px;
+    margin-right: .4rem;
+    vertical-align: middle;
+  }
+
+  .fc-back { display: none; width: 100%; }
+  .fc-card.flipped .fc-front { display: none; }
+  .fc-card.flipped .fc-back { display: block; }
+
+  .fc-back-phrase {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: normal;
+    line-height: 1.3;
+  }
+
+  .fc-back-row { margin-bottom: .75rem; }
+
+  .fc-back-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: .2rem;
+  }
+
+  .fc-back-val {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .fc-back-val em {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .fc-back-val li {
+    margin-left: 1rem;
+    margin-bottom: .15rem;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  .fc-back-divider {
+    border: none;
+    border-top: 1px solid var(--border-soft);
+    margin: .85rem 0;
+  }
+
+  .ghost-btn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px 12px;
+    cursor: pointer;
+    color: var(--text-soft);
+    margin-bottom: 1.5rem;
+    transition: all .15s;
+  }
+  .ghost-btn:hover { background: var(--surface); border-color: var(--text-muted); }
+
+  /* FILL IN */
+  .word-bank {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .wb-label { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; display: block; margin-bottom: .4rem; }
+  .wb-phrase { display: inline-block; font-style: italic; font-family: 'Georgia', serif; font-size: 13px; color: var(--text); background: var(--bg); border: 1px solid var(--border-soft); border-radius: 4px; padding: 1px 8px; margin: 2px 3px; }
+
+  .fill-header {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: .5rem .9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .q-item { margin-bottom: 1.25rem; }
+  .q-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    display: block;
+    margin-bottom: .2rem;
+  }
+  .q-sent {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .q-sent input {
+    border: none;
+    border-bottom: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    width: 230px;
+    padding: 0 4px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .q-sent input:focus { border-bottom-color: var(--accent); }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+
+  .action-btn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 14px;
+    cursor: pointer;
+    color: var(--text-soft);
+    transition: all .15s;
+  }
+  .action-btn:hover { background: var(--surface); border-color: var(--text-muted); color: var(--text); }
+
+  .answer-key { display: none; margin-top: 1.5rem; }
+  .answer-key.visible { display: block; }
+  .a-item {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: .5rem;
+    line-height: 1.7;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border-soft);
+  }
+  .a-item strong { color: var(--text); font-style: italic; }
+
+  .tip-box {
+    margin-top: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--accent-light);
+    border-left: 2px solid var(--accent-mid);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: .75rem 1rem;
+    line-height: 1.6;
+  }
+
+  /* MATCH */
+  .match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .match-col-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: .6rem;
+  }
+
+  .match-item {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: .6rem .85rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12.5px;
+    cursor: pointer;
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    transition: all .15s;
+    user-select: none;
+  }
+
+  .match-item:hover { border-color: var(--border); background: var(--bg); }
+  .match-item.selected { border-color: var(--accent-mid); background: var(--accent-light); color: var(--accent); }
+  .match-item.correct { border-color: #6baa7e; background: var(--success-bg); color: var(--success); pointer-events: none; }
+  .match-item.wrong { border-color: #d07070; background: var(--danger-bg); color: var(--danger); }
+
+  .match-phrase { font-style: italic; font-family: 'Georgia', serif; font-size: 13px; }
+
+  .match-answers { display: none; margin-top: 1.25rem; }
+  .match-answers.visible { display: block; }
+  .match-pair {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: .5rem;
+    line-height: 1.6;
+  }
+  .match-pair em { font-family: 'Georgia', serif; color: var(--text); }
+  .match-note {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    background: var(--accent-light);
+    border-left: 2px solid var(--accent-mid);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: .75rem 1rem;
+    margin-top: .75rem;
+  }
+
+  /* REGISTER */
+  .reg-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+    min-height: 40px;
+  }
+  .reg-chip {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 13px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 14px;
+    cursor: pointer;
+    color: var(--text);
+    transition: all .15s;
+    user-select: none;
+  }
+  .reg-chip:hover { border-color: var(--text-muted); background: var(--bg); }
+  .reg-chip.selected { border-color: var(--accent-mid); background: var(--accent-light); outline: 2px solid var(--accent-mid); }
+
+  .reg-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .reg-col {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: .85rem;
+    min-height: 180px;
+  }
+
+  .reg-col-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .75rem;
+    text-align: center;
+  }
+
+  .reg-drop {
+    min-height: 50px;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    transition: background .15s;
+  }
+  .reg-drop.over { background: var(--accent-light); }
+
+  .reg-answers { display: none; margin-top: 1.25rem; }
+  .reg-answers.visible { display: block; }
+  .reg-answer-block {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.8;
+  }
+  .reg-answer-block strong { color: var(--text); }
+
+  /* SCENARIOS */
+  .sc-item {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.25rem;
+    background: var(--surface);
+  }
+  .sc-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin-bottom: .5rem;
+  }
+  .sc-situation {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: .85rem;
+  }
+  .sc-prompt {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: .85rem;
+    line-height: 1.5;
+  }
+  .sc-toggle {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px 12px;
+    cursor: pointer;
+    color: var(--text-soft);
+    transition: all .15s;
+  }
+  .sc-toggle:hover { background: var(--bg); border-color: var(--text-muted); }
+  .sc-answer { display: none; margin-top: .85rem; background: var(--accent-light); border-radius: var(--radius); padding: .9rem 1rem; }
+  .sc-answer.visible { display: block; }
+  .sc-example {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: .6rem;
+  }
+  .sc-note {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* STORY */
+  .story-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .story-progress {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .story-text {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 2;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+  }
+  .story-cue {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: .75rem;
+  }
+  .story-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: .75rem;
+  }
+  .story-opt {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 13px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 16px;
+    cursor: pointer;
+    color: var(--text);
+    transition: all .15s;
+  }
+  .story-opt:hover { border-color: var(--accent-mid); background: var(--accent-light); }
+  .story-fb {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    padding: .6rem .9rem;
+    border-radius: var(--radius);
+    display: none;
+  }
+  .story-fb.correct { background: var(--success-bg); color: var(--success); }
+  .story-fb.wrong { background: var(--danger-bg); color: var(--danger); }
+
+  .story-complete { display: none; text-align: center; padding: 2.5rem 1rem; }
+  .story-complete.visible { display: block; }
+  .story-complete-emoji { font-size: 32px; margin-bottom: .5rem; }
+  .story-complete-title {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: .4rem;
+    font-weight: normal;
+  }
+  .story-complete-sub {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 1.5rem;
+  }
+  .story-full {
+    text-align: left;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 2;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    margin-bottom: 1.25rem;
+    white-space: pre-wrap;
+  }
+
+  @media (max-width: 520px) {
+    .match-grid { grid-template-columns: 1fr; }
+    .reg-cols { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <p class="hero-eyebrow">Idioms in use</p>
+    <h1>Hesitation, habits &amp; <em>letting go</em></h1>
+    <p class="hero-sub">14 phrases · C1–C2 · Emotions, decisions &amp; self-regulation</p>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" onclick="show('flashcards',this)">📇 Flashcards</button>
+    <button class="nav-btn" onclick="show('fill',this)">✏️ Fill in</button>
+    <button class="nav-btn" onclick="show('match',this)">🔗 Match</button>
+    <button class="nav-btn" onclick="show('register',this)">🎚 Register</button>
+    <button class="nav-btn" onclick="show('scenarios',this)">💭 Scenarios</button>
+    <button class="nav-btn" onclick="show('story',this)">✨ Story</button>
+  </nav>
+
+  <!-- FLASHCARDS -->
+  <div id="flashcards" class="section visible">
+    <div class="sec-header">
+      <p class="sec-title">Flashcards</p>
+      <p class="sec-desc">Front: definition · gapped example · gapped collocations. Back: full phrase, example, collocations, register, and connotation.</p>
+    </div>
+    <p class="fc-meta">14 phrases · C1–C2 · Click to flip</p>
+    <button class="ghost-btn" onclick="revealAll()">👁 Reveal all</button>
+    <div class="fc-grid" id="fc-grid"></div>
+  </div>
+
+  <!-- FILL IN -->
+  <div id="fill" class="section">
+    <div class="sec-header">
+      <p class="sec-title">Fill in the blank</p>
+      <p class="sec-desc">Use the correct phrase. You may need to change the verb form or pronoun.</p>
+    </div>
+    <div class="word-bank">
+      <span class="wb-label">Phrase bank</span>
+      <span class="wb-phrase">🤷 shrug something off</span>
+      <span class="wb-phrase">🚫 a dealbreaker</span>
+      <span class="wb-phrase">🍬 bite-sized</span>
+      <span class="wb-phrase">🦴 feel it in your bones</span>
+      <span class="wb-phrase">⚡ trigger the urge</span>
+      <span class="wb-phrase">🎧 tune out mental rumination</span>
+      <span class="wb-phrase">🌀 dwell on something</span>
+      <span class="wb-phrase">🪁 let go of bad habits</span>
+      <span class="wb-phrase">📉 be prone to</span>
+      <span class="wb-phrase">😟 apprehensive</span>
+      <span class="wb-phrase">🥶 get cold feet</span>
+      <span class="wb-phrase">🙊 inhibitions</span>
+      <span class="wb-phrase">🙈 shy away from</span>
+      <span class="wb-phrase">😴 complacent</span>
+    </div>
+    <div class="fill-header">🟥 Warm up — sentence level</div>
+    <div id="fill-questions"></div>
+    <div class="btn-row">
+      <button class="action-btn" onclick="checkFill()">Check answers</button>
+      <button class="action-btn" onclick="showFillAnswers()">👁 Show all answers</button>
+    </div>
+    <div class="answer-key" id="fill-answers"></div>
+  </div>
+
+  <!-- MATCH -->
+  <div id="match" class="section">
+    <div class="sec-header">
+      <p class="sec-title">Match the phrase to its context</p>
+      <p class="sec-desc">Click a phrase on the left, then click the situation it fits on the right.</p>
+    </div>
+    <div class="match-grid">
+      <div>
+        <p class="match-col-label">Phrases</p>
+        <div id="match-words"></div>
+      </div>
+      <div>
+        <p class="match-col-label">Contexts</p>
+        <div id="match-contexts"></div>
+      </div>
+    </div>
+    <button class="action-btn" onclick="showMatchAnswers()">👁 Show answers + notes</button>
+    <div class="match-answers" id="match-answers"></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="register" class="section">
+    <div class="sec-header">
+      <p class="sec-title">Register sort</p>
+      <p class="sec-desc">Click a phrase to select it, then click the column where it belongs.</p>
+    </div>
+    <div class="reg-pool" id="reg-pool"></div>
+    <div class="reg-cols">
+      <div class="reg-col">
+        <p class="reg-col-title">📝 Formal / Written</p>
+        <div class="reg-drop" id="drop-formal" onclick="dropInto('formal')"></div>
+      </div>
+      <div class="reg-col">
+        <p class="reg-col-title">💬 Neutral / Everyday</p>
+        <div class="reg-drop" id="drop-neutral" onclick="dropInto('neutral')"></div>
+      </div>
+      <div class="reg-col">
+        <p class="reg-col-title">🤙 Informal / Spoken</p>
+        <div class="reg-drop" id="drop-informal" onclick="dropInto('informal')"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="action-btn" onclick="checkRegister()">Check my answers</button>
+      <button class="action-btn" onclick="showRegisterAnswers()">👁 Show answers + explanations</button>
+    </div>
+    <div class="reg-answers" id="reg-answers"></div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div id="scenarios" class="section">
+    <div class="sec-header">
+      <p class="sec-title">Real-life scenarios</p>
+      <p class="sec-desc">Read each situation. Think about how you'd use the target phrases — then check the ideas.</p>
+    </div>
+    <div id="scenarios-list"></div>
+  </div>
+
+  <!-- STORY -->
+  <div id="story" class="section">
+    <div class="sec-header">
+      <p class="sec-title">The story builder</p>
+      <p class="sec-desc">A journal entry about leaving a safe job and learning to quiet your own head. At each gap, choose the phrase that fits.</p>
+    </div>
+    <div id="story-main"></div>
+    <div class="story-complete" id="story-complete">
+      <p class="story-complete-emoji">🎉</p>
+      <p class="story-complete-title">You finished the story!</p>
+      <p class="story-complete-sub">Here's the full journal entry with all the phrases in place.</p>
+      <div class="story-full" id="story-full"></div>
+      <button class="ghost-btn" onclick="restartStory()">↩ Start again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const IDIOMS = [
+  {
+    emoji: "🤷",
+    phrase: "shrug something off",
+    meaning: "To dismiss something unpleasant — criticism, bad news, a setback — as unimportant, and refuse to let it affect you.",
+    example: "Most people would have been devastated by that review, but she just ___ and went back to work.",
+    exampleFull: "Most people would have been devastated by that review, but she just shrugged it off and went back to work.",
+    collocations: ["___ criticism", "___ the insult", "manage to ___"],
+    collocationsFull: ["he shrugged off the criticism", "she shrugged off the insult with a laugh", "I couldn't quite manage to shrug it off"],
+    register: "Informal to neutral — very common in speech and journalism (especially sport and business reporting)",
+    connotation: "Usually positive — implies resilience. But it can imply avoidance: shrugging off something that genuinely deserved attention."
+  },
+  {
+    emoji: "🚫",
+    phrase: "a dealbreaker",
+    meaning: "A single condition or flaw serious enough to make an otherwise acceptable deal, job, or relationship impossible.",
+    example: "The flat was lovely, but there was no natural light at all — for her that was ___.",
+    exampleFull: "The flat was lovely, but there was no natural light at all — for her that was a dealbreaker.",
+    collocations: ["an absolute ___", "that's ___ for me", "not necessarily ___"],
+    collocationsFull: ["the relocation clause was an absolute dealbreaker", "smoking is a dealbreaker for me", "the price is high, but not necessarily a dealbreaker"],
+    register: "Informal to neutral — originally business jargon, now everyday, especially about dating and flat-hunting",
+    connotation: "Neutral — states a hard limit without necessarily criticising. Often used half-jokingly about small personal preferences."
+  },
+  {
+    emoji: "🍬",
+    phrase: "bite-sized",
+    meaning: "Small enough to be taken in easily — used literally about food, and figuratively about information, tasks, or content.",
+    example: "Nobody finishes a forty-page report; the findings need to be broken into ___ chunks.",
+    exampleFull: "Nobody finishes a forty-page report; the findings need to be broken into bite-sized chunks.",
+    collocations: ["___ chunks", "___ pieces of information", "break it into ___ steps"],
+    collocationsFull: ["the course is delivered in bite-sized chunks", "bite-sized pieces of information work best on mobile", "break the project into bite-sized steps"],
+    register: "Neutral — standard in education, marketing, and content/media writing",
+    connotation: "Positive — implies accessibility and good design. Occasionally dismissive in criticism: bite-sized content as shallow content."
+  },
+  {
+    emoji: "🦴",
+    phrase: "feel it in your bones",
+    meaning: "To be deeply, instinctively certain of something without being able to prove it or explain why.",
+    example: "I can't point to any evidence, but I ___ that she's going to take the job.",
+    exampleFull: "I can't point to any evidence, but I feel it in my bones that she's going to take the job.",
+    collocations: ["___ that [clause]", "can ___", "know it in your bones"],
+    collocationsFull: ["I feel it in my bones that something's wrong", "she could feel it in her bones", "he knew it in his bones before anyone told him"],
+    register: "Informal / spoken — slightly dramatic, common in storytelling",
+    connotation: "Neutral to positive — signals conviction and intuition. Overused, it can sound like someone substituting feeling for evidence."
+  },
+  {
+    emoji: "⚡",
+    phrase: "trigger the urge",
+    meaning: "To set off a sudden strong impulse to do something, often something you're trying to resist.",
+    example: "Just walking past the bakery is enough to ___ to buy something he doesn't need.",
+    exampleFull: "Just walking past the bakery is enough to trigger the urge to buy something he doesn't need.",
+    collocations: ["___ to [do something]", "what ___s", "___ to check your phone"],
+    collocationsFull: ["stress triggers the urge to smoke", "learn to notice what triggers the urge", "a notification triggers the urge to check your phone"],
+    register: "Neutral — standard in psychology, health, and habit-change writing; also used in ordinary speech",
+    connotation: "Neutral, clinical — describes a mechanism rather than judging it. Implies the impulse is involuntary but manageable."
+  },
+  {
+    emoji: "🎧",
+    phrase: "tune out mental rumination",
+    meaning: "To deliberately disengage from repetitive, circular, unproductive thinking about the same worry or event.",
+    example: "Long walks are the only reliable way she's found to ___ that keeps her awake at two in the morning.",
+    exampleFull: "Long walks are the only reliable way she's found to tune out the mental rumination that keeps her awake at two in the morning.",
+    collocations: ["learn to ___", "___ for long enough to", "a way to ___"],
+    collocationsFull: ["it takes practice to learn to tune out mental rumination", "she tunes out the rumination for long enough to fall asleep", "running is his way of tuning out the mental rumination"],
+    register: "Neutral to formal — rumination is a clinical/psychology term; tune out is everyday, so the phrase mixes registers",
+    connotation: "Positive about the action, negative about the thing being tuned out. Note: tune out alone can be critical (not listening); here it is a coping skill."
+  },
+  {
+    emoji: "🌀",
+    phrase: "dwell on something",
+    meaning: "To keep thinking or talking about something unpleasant for longer than is useful.",
+    example: "There's no point ___ the breakup — you've replayed that conversation a hundred times.",
+    exampleFull: "There's no point dwelling on the breakup — you've replayed that conversation a hundred times.",
+    collocations: ["___ the past", "no point ___ing", "let's not ___ it"],
+    collocationsFull: ["he dwells on the past far too much", "there's no point dwelling on it now", "let's not dwell on what went wrong"],
+    register: "Neutral — equally at home in conversation and in writing",
+    connotation: "Negative — implies the thinking is excessive and self-defeating. Almost always used in advice against doing it."
+  },
+  {
+    emoji: "🪁",
+    phrase: "let go of bad habits",
+    meaning: "To release or give up patterns of behaviour that no longer serve you, usually gradually rather than all at once.",
+    example: "Three weeks in, he's finally starting to ___ he's had since university.",
+    exampleFull: "Three weeks in, he's finally starting to let go of the bad habits he's had since university.",
+    collocations: ["___ one at a time", "struggle to ___", "finally ___"],
+    collocationsFull: ["she's letting go of her bad habits one at a time", "most people struggle to let go of old habits", "he finally let go of the habit of checking emails at midnight"],
+    register: "Neutral — common in wellness, coaching, and self-help contexts",
+    connotation: "Positive and gentle — let go of frames change as release rather than struggle, softer than break or quit."
+  },
+  {
+    emoji: "📉",
+    phrase: "be prone to",
+    meaning: "To be likely to suffer from or do something, usually something undesirable, because of your nature or circumstances.",
+    example: "Since the accident she's been ___ headaches whenever the weather changes.",
+    exampleFull: "Since the accident she's been prone to headaches whenever the weather changes.",
+    collocations: ["___ mood swings", "___ error", "particularly ___"],
+    collocationsFull: ["he's prone to mood swings when he's tired", "the system is prone to error", "older machines are particularly prone to overheating"],
+    register: "Neutral to formal — standard in medical, technical, and academic writing as well as speech",
+    connotation: "Mildly negative — names a tendency rather than a choice, which makes it sound descriptive and non-judgemental."
+  },
+  {
+    emoji: "😟",
+    phrase: "apprehensive",
+    meaning: "Anxious or uneasy about something that may happen in the future.",
+    example: "He was ___ about the interview, even though he'd prepared more thoroughly than anyone else.",
+    exampleFull: "He was apprehensive about the interview, even though he'd prepared more thoroughly than anyone else.",
+    collocations: ["___ about [something]", "feel slightly ___", "understandably ___"],
+    collocationsFull: ["she felt apprehensive about the move", "I'm slightly apprehensive about meeting them", "staff were understandably apprehensive about the merger"],
+    register: "Formal to neutral — more literary and measured than nervous or worried",
+    connotation: "Negative but dignified — suggests reasoned unease rather than panic. Often used when someone is choosing an understated word."
+  },
+  {
+    emoji: "🥶",
+    phrase: "get cold feet",
+    meaning: "To suddenly lose your nerve about something you'd already committed to, usually just before it happens.",
+    example: "They'd booked the venue and sent the invitations before he ___ and called it off.",
+    exampleFull: "They'd booked the venue and sent the invitations before he got cold feet and called it off.",
+    collocations: ["___ at the last minute", "almost ___", "___ about [something]"],
+    collocationsFull: ["the buyer got cold feet at the last minute", "I almost got cold feet at the airport", "she got cold feet about the whole move"],
+    register: "Informal / spoken — extremely common, slightly sympathetic in tone",
+    connotation: "Mildly negative — implies failure of nerve, but usually said with understanding rather than contempt."
+  },
+  {
+    emoji: "🙊",
+    phrase: "inhibitions",
+    meaning: "Internal restraints — self-consciousness, shyness, learned caution — that stop you behaving freely.",
+    example: "Two glasses of wine and most of his ___ about singing in public disappeared.",
+    exampleFull: "Two glasses of wine and most of his inhibitions about singing in public disappeared.",
+    collocations: ["lose your ___", "shed your ___", "without ___"],
+    collocationsFull: ["she loses her inhibitions on the dance floor", "the workshop is designed to help people shed their inhibitions", "he spoke without inhibitions for the first time"],
+    register: "Neutral to formal — originally psychological terminology, now general vocabulary",
+    connotation: "Depends on the verb: losing or shedding inhibitions is usually framed as freeing, but it can also hint at poor judgement."
+  },
+  {
+    emoji: "🙈",
+    phrase: "shy away from",
+    meaning: "To avoid or be reluctant to do something because it makes you uncomfortable or nervous.",
+    example: "As a junior lawyer she used to ___ confrontation; now she runs the litigation team.",
+    exampleFull: "As a junior lawyer she used to shy away from confrontation; now she runs the litigation team.",
+    collocations: ["___ confrontation", "never ___", "tend to ___"],
+    collocationsFull: ["he shies away from difficult conversations", "she never shies away from a challenge", "new writers tend to shy away from criticism"],
+    register: "Neutral — equally natural in speech and in writing",
+    connotation: "Neutral to slightly negative — sympathetic about the discomfort, but usually implies the avoidance is a limitation."
+  },
+  {
+    emoji: "😴",
+    phrase: "complacent",
+    meaning: "Smugly satisfied with your situation or achievements, and therefore no longer making an effort.",
+    example: "Three strong quarters made the whole team ___, and the fourth was a disaster.",
+    exampleFull: "Three strong quarters made the whole team complacent, and the fourth was a disaster.",
+    collocations: ["become ___", "grow ___", "no room for ___ency"],
+    collocationsFull: ["the market leader became complacent", "the team grew complacent after the early wins", "there's no room for complacency"],
+    register: "Formal to neutral — very common in business, political, and sports commentary",
+    connotation: "Clearly negative — the criticism is of unearned comfort. Note the noun complacency, which is often the more useful form in writing."
+  }
+];
+
+const FILL_QS = [
+  { blank: "shrug it off", sentence: "The feedback was harsher than he'd expected; he tried to ___, but it was still bothering him three days later." },
+  { blank: "a dealbreaker", sentence: "Everything about the offer worked except the hour-long commute each way, and for her that turned out to be ___." },
+  { blank: "bite-sized", sentence: "Nobody is going to watch a ninety-minute training video — split the material into ___ modules of five minutes each." },
+  { blank: "feel it in my bones", sentence: "I've got nothing concrete to show you, but I ___ that this project is going to fall apart by March." },
+  { blank: "triggers the urge", sentence: "For him it's never hunger — it's stress that ___ to order takeaway at eleven at night." },
+  { blank: "tune out the mental rumination", sentence: "Swimming is the one thing that lets her ___ about that conversation with her mother." },
+  { blank: "dwelling on", sentence: "There's genuinely no point ___ a decision you made eight years ago with the information you had then." },
+  { blank: "let go of the bad habits", sentence: "The hardest part of the first month wasn't the exercise — it was learning to ___ he'd built up over a decade." },
+  { blank: "prone to", sentence: "He's been ___ mood swings ever since he started working nights." },
+  { blank: "apprehensive", sentence: "The whole department felt ___ about the restructuring, though nobody said so in the meeting." },
+  { blank: "got cold feet", sentence: "The buyer ___ two days before completion and pulled out of the sale entirely." },
+  { blank: "inhibitions", sentence: "Improvisation classes are designed to strip away the ___ that stop adults from playing." },
+  { blank: "shy away from", sentence: "A good manager doesn't ___ difficult conversations — she schedules them." },
+  { blank: "complacent", sentence: "The company had been the market leader for so long that it grew ___ and missed the shift entirely." }
+];
+
+const MATCH_PAIRS = [
+  { phrase: "a dealbreaker", context: "Someone likes almost everything about a job offer, but it requires moving away from family — and that alone settles the decision." },
+  { phrase: "get cold feet", context: "A friend who has planned a solo trip for a year cancels her flight two days before departure." },
+  { phrase: "complacent", context: "A market-leading company stops investing in new products because sales have been strong for five years running." },
+  { phrase: "dwell on something", context: "A colleague keeps replaying one critical comment from a meeting that happened three weeks ago." },
+  { phrase: "feel it in your bones", context: "A coach admits she has no statistics to support it, but she is certain this player will make the first team." },
+  { phrase: "shrug something off", context: "A performer reads a vicious review, laughs about it over dinner, and goes on stage the same night." },
+  { phrase: "be prone to", context: "A doctor notes that a patient gets migraines more often than most people, particularly during stressful periods." }
+];
+
+const MATCH_NOTES = [
+  "A dealbreaker is singular and absolute — the point is that one factor outweighs everything else. If several things are wrong, it isn't really the right word.",
+  "Get cold feet always implies a prior commitment. You can't get cold feet about something you never agreed to in the first place.",
+  "Complacent is about effort stopping, not about arrogance as such. The usual pattern is success → comfort → decline.",
+  "Dwell on describes unproductive repetition, not simply thinking about something. Reflecting carefully on a mistake is not dwelling on it.",
+  "Feel it in your bones is intuition presented as certainty. Note how often it appears alongside an explicit admission that there's no evidence.",
+  "Shrug something off is about the visible response, not the internal one — someone can shrug something off publicly and still be hurt.",
+  "Be prone to is diagnostic and neutral in tone, which is why it's the usual choice in medical and technical writing. Compare the harsher he's always getting migraines."
+];
+
+const REG_DATA = {
+  formal: ["apprehensive", "be prone to", "complacent", "inhibitions", "tune out mental rumination"],
+  neutral: ["bite-sized", "dwell on something", "let go of bad habits", "trigger the urge", "shy away from"],
+  informal: ["shrug something off", "a dealbreaker", "feel it in your bones", "get cold feet"]
+};
+
+const REG_NOTES = `<strong>Formal / Written:</strong> apprehensive · be prone to · complacent · inhibitions · tune out mental rumination<br>
+<strong>Neutral / Everyday:</strong> bite-sized · dwell on something · let go of bad habits · trigger the urge · shy away from<br>
+<strong>Informal / Spoken:</strong> shrug something off · a dealbreaker · feel it in your bones · get cold feet<br><br>
+<strong>Notes on tricky ones:</strong><br>
+— <em>tune out mental rumination</em>: a register hybrid. <em>Rumination</em> is clinical; <em>tune out</em> is everyday. The combination sounds natural in wellness writing and in educated speech, but odd in an academic paper, where you'd write <em>disengage from rumination</em>.<br>
+— <em>a dealbreaker</em>: business jargon that has gone fully mainstream. Fine in an email, still too casual for a contract.<br>
+— <em>shrug something off</em>: informal in conversation, but completely standard in journalism — sports and business writing use it constantly.<br>
+— <em>inhibitions</em>: the word is formal, but the contexts it appears in rarely are — parties, dancing, drinking. Watch that mismatch.<br>
+— <em>complacent</em> vs <em>complacency</em>: the noun is often the stronger choice in writing (<em>there's no room for complacency</em>).`;
+
+const SCENARIOS = [
+  {
+    num: 1,
+    situation: "A friend has spent a year planning to move abroad for a new job. The flat is let, the contract is signed, and now, three days before the flight, she's phoning you at midnight asking whether she's made a terrible mistake.",
+    prompt: 'Use "apprehensive" and "get cold feet": How do you distinguish normal nerves from a genuine change of mind?',
+    example: "\"Being apprehensive the week before you move countries is completely normal — I'd be worried if you weren't. Getting cold feet is different: that's when the fear starts making the decision for you. So which one is this? If the job were starting in six months instead of three days, would you still want it?\"",
+    note: "Apprehensive frames the feeling as reasonable and proportionate; get cold feet frames it as a loss of nerve. Putting the two side by side gives your friend a way to name what's happening to her — which is usually more useful than reassurance."
+  },
+  {
+    num: 2,
+    situation: "A colleague mentions, almost in passing, that he's been lying awake replaying one sharp remark his manager made in a meeting three weeks ago. He knows it's irrational. He can't stop.",
+    prompt: 'Use "dwell on something" and "tune out mental rumination": How do you respond without sounding dismissive?',
+    example: "\"The problem isn't that you thought about it — it's that you've been dwelling on it for three weeks, and you've already extracted everything useful there was to extract. What actually helps me is having something physical that tunes out the mental rumination: a long walk, the gym, anything where the thoughts can't follow.\"",
+    note: "Dwell on names the pattern without pathologising it. Note the move in the example: naming the behaviour, then immediately offering a concrete mechanism. Just saying stop dwelling on it is useless advice — tune out mental rumination implies a method, not willpower."
+  },
+  {
+    num: 3,
+    situation: "You're advising a small company that has dominated its niche for six years. Sales are still good. The founder dismisses two new competitors as 'not serious' and has cancelled this year's product research budget.",
+    prompt: 'Use "complacent" and "shrug something off": How do you raise the risk without insulting a successful founder?',
+    example: "\"Six strong years is exactly when companies get complacent — not because anyone is lazy, but because the evidence keeps saying you're right. You've shrugged off both new entrants, and you may well be correct about them. I'd just want to know what it would take to change your mind, because right now I can't see what that would be.\"",
+    note: "Complacent is a strong accusation, so notice how the example softens it by making it structural (companies get complacent) rather than personal. Shrugged off does the real work here: it names a dismissal as a dismissal without claiming it was wrong."
+  },
+  {
+    num: 4,
+    situation: "Someone you're coaching wants to stop checking his phone the moment he wakes up. He's tried twice, lasted four days each time, and now describes himself as 'hopeless at discipline'.",
+    prompt: 'Use "trigger the urge", "let go of bad habits" and "bite-sized": How do you reframe this as a design problem rather than a character flaw?',
+    example: "\"You're not hopeless — you've just been fighting the cue instead of removing it. The phone on the bedside table is what triggers the urge; move the charger to the hallway and there's nothing to resist. And you don't let go of bad habits in one go. Bite-sized: this week, just the first ten minutes. That's the whole target.\"",
+    note: "Trigger the urge is doing something specific — it relocates the cause from the person to the environment, which is why it's the central phrase in habit-change writing. Let go of is gentler than break or quit, and bite-sized reframes the scale of the commitment."
+  },
+  {
+    num: 5,
+    situation: "A talented but very reserved student in your group never volunteers, never asks questions, and quietly declines every chance to present. In a one-to-one she tells you she's terrified of sounding stupid in front of fluent speakers.",
+    prompt: 'Use "inhibitions", "shy away from" and "feel it in your bones": How do you encourage her honestly, without pretending the fear is irrational?',
+    example: "\"The fear isn't irrational — everyone in that room has the same inhibitions, they're just at different stages of ignoring them. But every time you shy away from speaking, you're confirming to yourself that it's dangerous. I feel it in my bones that you're better than you think you are. Start with one question next session. Not a presentation. One question.\"",
+    note: "Inhibitions normalises the feeling by making it universal rather than personal. Shy away from names the avoidance sympathetically. Feel it in my bones is deliberately unevidenced — and that's the point: it reads as personal conviction, which is sometimes more persuasive than data."
+  }
+];
+
+const STORY_STEPS = [
+  {
+    before: "February 3rd\n\nI handed in my notice this morning. Everyone keeps asking whether I'm nervous, and I keep saying no, which isn't quite true. I'm",
+    opts: ["apprehensive", "complacent", "bite-sized"],
+    correct: 0,
+    after: " apprehensive",
+    fb_wrong: "She's uneasy about something that hasn't happened yet — a more measured word than nervous."
+  },
+  {
+    before: ", which is simply a politer word for it.\n\nThe truth is that for about four years I had been quietly",
+    opts: ["complacent", "apprehensive", "prone"],
+    correct: 0,
+    after: " complacent",
+    fb_wrong: "This describes being so comfortable with your situation that you stop making an effort — exactly what she's confessing to."
+  },
+  {
+    before: " there. Comfortable, reasonably paid, and bored in a way I'd stopped noticing. The salary alone nearly kept me. What finally became",
+    opts: ["a dealbreaker", "an inhibition", "an urge"],
+    correct: 0,
+    after: " a dealbreaker",
+    fb_wrong: "This is the one factor serious enough to make an otherwise acceptable situation impossible."
+  },
+  {
+    before: " was being told, for the third year running, that my role 'wasn't ready' to change. I tried to",
+    opts: ["shrug it off", "dwell on it", "tune it out"],
+    correct: 0,
+    after: " shrug it off",
+    fb_wrong: "This means dismissing something unpleasant and refusing to let it affect you — her usual response."
+  },
+  {
+    before: ", the way I always do. Some things refuse to be shrugged.\n\nFebruary 11th\n\nMy sister says I'm",
+    opts: ["prone to", "apprehensive about", "letting go of"],
+    correct: 0,
+    after: " prone to",
+    fb_wrong: "This means being likely to do or suffer from something because of your nature — a tendency, not a choice."
+  },
+  {
+    before: " overthinking every large decision, and she is annoyingly right. I can lose an entire evening",
+    opts: ["dwelling on", "shrugging off", "shying away from"],
+    correct: 0,
+    after: " dwelling on",
+    fb_wrong: "This means thinking about something unpleasant for far longer than is useful."
+  },
+  {
+    before: " a single sentence somebody said in a meeting. So I've been trying something practical: breaking the whole move into",
+    opts: ["bite-sized", "complacent", "apprehensive"],
+    correct: 0,
+    after: " bite-sized",
+    fb_wrong: "This means small enough to be taken in or managed easily — used here about steps, not food."
+  },
+  {
+    before: " steps. Update the CV tonight. One email tomorrow. Nothing larger than that.\n\nIt doesn't make the fear disappear, but it does seem to",
+    opts: ["tune out the mental rumination", "trigger the urge", "get cold feet"],
+    correct: 0,
+    after: " tune out the mental rumination",
+    fb_wrong: "This means disengaging from repetitive, circular thinking about the same worry."
+  },
+  {
+    before: " for long enough to actually get something done.\n\nFebruary 24th\n\nI almost",
+    opts: ["got cold feet", "shrugged it off", "let go of it"],
+    correct: 0,
+    after: " got cold feet",
+    fb_wrong: "This means suddenly losing your nerve about something you'd already committed to."
+  },
+  {
+    before: " at the airport. Two hours at the gate is more than enough time for one what-if to",
+    opts: ["trigger the urge", "shy away from", "dwell on"],
+    correct: 0,
+    after: " trigger the urge",
+    fb_wrong: "This means setting off a sudden strong impulse — here, the impulse to go home."
+  },
+  {
+    before: " to turn round and go home. I didn't. Underneath all the noise, something was completely certain this was right — I could",
+    opts: ["feel it in my bones", "shrug it off", "tune it out"],
+    correct: 0,
+    after: " feel it in my bones",
+    fb_wrong: "This means being instinctively certain of something without being able to prove it."
+  },
+  {
+    before: ".\n\nMarch 15th\n\nSix weeks in, and the new city has quietly stripped away some of my",
+    opts: ["inhibitions", "dealbreakers", "urges"],
+    correct: 0,
+    after: " inhibitions",
+    fb_wrong: "These are the internal restraints — self-consciousness, learned caution — that stop you behaving freely."
+  },
+  {
+    before: ". I talk to strangers now, badly and in the wrong tense, and I no longer",
+    opts: ["shy away from", "dwell on", "shrug off"],
+    correct: 0,
+    after: " shy away from",
+    fb_wrong: "This means avoiding something because it makes you uncomfortable."
+  },
+  {
+    before: " looking foolish in public. Next on the list, and much harder: learning to",
+    opts: ["let go of", "trigger", "shrug off"],
+    correct: 0,
+    after: " let go of",
+    fb_wrong: "This means releasing or giving up something gradually — the gentle way of talking about quitting."
+  },
+  {
+    before: " the bad habits I packed and brought with me. One at a time. Bite-sized.",
+    opts: ["", "", ""],
+    correct: 0,
+    after: "",
+    fb_wrong: "",
+    final: true
+  }
+];
+
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// FLASHCARDS
+function buildFlashcards() {
+  const grid = document.getElementById('fc-grid');
+  IDIOMS.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'fc-card';
+
+    const gappedColls = item.collocations.map(c => {
+      const gapped = c.replace(/___/g, '<span class="gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+      return `<div class="fc-front-gap">${gapped}</div>`;
+    }).join('');
+
+    const fullColls = item.collocationsFull.map(c => `<li>${c}</li>`).join('');
+
+    const gappedExample = item.example.replace(/___/g, '<span class="gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+
+    card.innerHTML = `
+      <div class="fc-front">
+        <span class="fc-emoji">${item.emoji}</span>
+        <p class="fc-front-phrase">Definition</p>
+        <p class="fc-front-def">${item.meaning}</p>
+        <hr style="border:none;border-top:1px solid var(--border-soft);margin:.75rem 0">
+        <p class="fc-front-label">Gapped example</p>
+        <p class="fc-front-gap">${gappedExample}</p>
+        <p class="fc-front-label">Gapped collocations</p>
+        ${gappedColls}
+        <p class="fc-front-hint">↩ Flip to reveal the phrase and full information</p>
+      </div>
+      <div class="fc-back">
+        <p class="fc-back-phrase"><span class="fc-back-emoji">${item.emoji}</span> "${item.phrase}"</p>
+        <div class="fc-back-row">
+          <p class="fc-back-label">Meaning</p>
+          <p class="fc-back-val">${item.meaning}</p>
+        </div>
+        <hr class="fc-back-divider">
+        <div class="fc-back-row">
+          <p class="fc-back-label">Example</p>
+          <p class="fc-back-val"><em>${item.exampleFull}</em></p>
+        </div>
+        <hr class="fc-back-divider">
+        <div class="fc-back-row">
+          <p class="fc-back-label">Collocations</p>
+          <ul class="fc-back-val">${fullColls}</ul>
+        </div>
+        <hr class="fc-back-divider">
+        <div class="fc-back-row">
+          <p class="fc-back-label">Register</p>
+          <p class="fc-back-val">${item.register}</p>
+        </div>
+        <div class="fc-back-row">
+          <p class="fc-back-label">Connotation</p>
+          <p class="fc-back-val">${item.connotation}</p>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+
+function revealAll() {
+  const cards = document.querySelectorAll('.fc-card');
+  const allFlipped = Array.from(cards).every(c => c.classList.contains('flipped'));
+  cards.forEach(c => allFlipped ? c.classList.remove('flipped') : c.classList.add('flipped'));
+}
+
+// FILL IN
+let fillOrder = [];
+function buildFill() {
+  const container = document.getElementById('fill-questions');
+  const answersDiv = document.getElementById('fill-answers');
+  fillOrder = [...Array(FILL_QS.length).keys()].sort(() => Math.random() - .5);
+  let html = '';
+  let ansHtml = '';
+  fillOrder.forEach((origIdx, displayIdx) => {
+    const q = FILL_QS[origIdx];
+    const parts = q.sentence.split('___');
+    html += `<div class="q-item">
+      <span class="q-num">${displayIdx + 1}.</span>
+      <span class="q-sent">${parts[0]}<input type="text" id="fi-${origIdx}" placeholder="..." autocomplete="off" spellcheck="false">${parts[1] || ''}</span>
+    </div>`;
+  });
+  fillOrder.forEach((origIdx, displayIdx) => {
+    const q = FILL_QS[origIdx];
+    ansHtml += `<div class="a-item"><strong>${displayIdx + 1}. "${q.blank}"</strong> — ${q.sentence.replace('___', '"' + q.blank + '"')}</div>`;
+  });
+  ansHtml += `<div class="tip-box">💡 Watch the grammar, not just the meaning. <em>Shrug off</em> is separable: "shrug it off," not "shrug off it." <em>Be prone to</em> takes a noun or -ing form, never an infinitive: "prone to headaches," "prone to overreacting." <em>Dwell on</em> and <em>shy away from</em> both need the -ing form after them. <em>Apprehensive</em> and <em>complacent</em> are adjectives, so they need a form of <em>be</em>, <em>feel</em>, <em>grow</em> or <em>become</em>. <em>Inhibitions</em> is almost always plural.</div>`;
+  container.innerHTML = html;
+  answersDiv.innerHTML = ansHtml;
+}
+
+function normalise(str) {
+  return str.toLowerCase().trim()
+    .replace(/['']/g, "'")
+    .replace(/\b(myself|yourself|himself|herself|themselves|ourselves)\b/g, 'self')
+    .replace(/\b(my|your|his|her|their|our)\b/g, 'poss')
+    .replace(/\b(someone|somebody|him|her|them|me|us)\b/g, 'smb')
+    .replace(/\b(something|it)\b/g, 'sth')
+    .replace(/\b(the|a|an)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function checkFill() {
+  FILL_QS.forEach((q, origIdx) => {
+    const inp = document.getElementById('fi-' + origIdx);
+    if (!inp) return;
+    const val = normalise(inp.value);
+    const correct = normalise(q.blank);
+    const match = val === correct || (val.length > 5 && (val.includes(correct) || correct.includes(val)));
+    if (match) {
+      inp.style.borderBottomColor = '#6baa7e'; inp.style.color = '#2d6b42';
+    } else if (val.length > 0) {
+      inp.style.borderBottomColor = '#d07070'; inp.style.color = '#b03030';
+    }
+  });
+}
+
+function showFillAnswers() {
+  FILL_QS.forEach((q, origIdx) => {
+    const inp = document.getElementById('fi-' + origIdx);
+    if (inp) { inp.value = q.blank; inp.style.borderBottomColor = ''; inp.style.color = ''; }
+  });
+  document.getElementById('fill-answers').classList.add('visible');
+}
+
+// MATCH
+let matchSelected = null;
+let matchWordEl = null;
+
+function buildMatch() {
+  const wDiv = document.getElementById('match-words');
+  const cDiv = document.getElementById('match-contexts');
+  const shuffledP = [...MATCH_PAIRS].sort(() => Math.random() - .5);
+  const shuffledC = [...MATCH_PAIRS].sort(() => Math.random() - .5);
+  const emojiLookup = {};
+  IDIOMS.forEach(item => { emojiLookup[item.phrase] = item.emoji; });
+  shuffledP.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    const em = emojiLookup[p.phrase] || '';
+    el.innerHTML = `<span class="match-phrase">${em} "${p.phrase}"</span>`;
+    el.dataset.word = p.phrase;
+    el.addEventListener('click', () => selectWord(el));
+    wDiv.appendChild(el);
+  });
+  shuffledC.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.textContent = p.context;
+    el.dataset.word = p.phrase;
+    el.addEventListener('click', () => selectContext(el));
+    cDiv.appendChild(el);
+  });
+  let ansHtml = '<p style="font-family:Helvetica Neue,Arial,sans-serif;font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:.75rem">Correct pairs:</p>';
+  MATCH_PAIRS.forEach(p => { ansHtml += `<div class="match-pair"><em>"${p.phrase}"</em> → "${p.context}"</div>`; });
+  ansHtml += '<div class="match-note">';
+  MATCH_NOTES.forEach(n => { ansHtml += `<p style="margin-bottom:.4rem">💡 ${n}</p>`; });
+  ansHtml += '</div>';
+  document.getElementById('match-answers').innerHTML = ansHtml;
+}
+
+function selectWord(el) {
+  if (el.classList.contains('correct')) return;
+  document.querySelectorAll('#match-words .match-item').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  matchSelected = el.dataset.word;
+  matchWordEl = el;
+}
+
+function selectContext(el) {
+  if (!matchSelected || el.classList.contains('correct')) return;
+  if (el.dataset.word === matchSelected) {
+    el.classList.add('correct'); matchWordEl.classList.add('correct'); matchWordEl.classList.remove('selected');
+  } else {
+    el.classList.add('wrong'); setTimeout(() => el.classList.remove('wrong'), 700);
+  }
+  matchSelected = null; matchWordEl = null;
+}
+
+function showMatchAnswers() { document.getElementById('match-answers').classList.add('visible'); }
+
+// REGISTER
+let regSelected = null;
+
+function buildRegister() {
+  const pool = document.getElementById('reg-pool');
+  [...IDIOMS].sort(() => Math.random() - .5).forEach(item => {
+    const chip = document.createElement('span');
+    chip.className = 'reg-chip';
+    chip.textContent = `${item.emoji} "${item.phrase}"`;
+    chip.dataset.phrase = item.phrase;
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.reg-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      regSelected = item.phrase;
+    });
+    pool.appendChild(chip);
+  });
+  document.getElementById('reg-answers').innerHTML = `<div class="reg-answer-block">${REG_NOTES}</div>`;
+}
+
+function dropInto(zone) {
+  if (!regSelected) return;
+  const existing = document.querySelector(`.reg-chip[data-phrase="${CSS.escape(regSelected)}"]`);
+  if (!existing) { regSelected = null; return; }
+  existing.classList.remove('selected');
+  document.getElementById('drop-' + zone).appendChild(existing);
+  regSelected = null;
+}
+
+function checkRegister() {
+  ['formal','neutral','informal'].forEach(zone => {
+    document.querySelectorAll(`#drop-${zone} .reg-chip`).forEach(c => {
+      const ok = REG_DATA[zone] && REG_DATA[zone].includes(c.dataset.phrase);
+      c.style.background = ok ? '#edf5f0' : '#fdf0f0';
+      c.style.color = ok ? '#2d6b42' : '#b03030';
+      c.style.borderColor = ok ? '#6baa7e' : '#d07070';
+    });
+  });
+}
+
+function showRegisterAnswers() { document.getElementById('reg-answers').classList.add('visible'); }
+
+// SCENARIOS
+function buildScenarios() {
+  document.getElementById('scenarios-list').innerHTML = SCENARIOS.map((s, i) => `
+    <div class="sc-item">
+      <p class="sc-num">Scenario ${s.num}</p>
+      <p class="sc-situation">${s.situation}</p>
+      <p class="sc-prompt">${s.prompt}</p>
+      <button class="sc-toggle" onclick="toggleScenario(${i})">💬 See ideas + notes</button>
+      <div class="sc-answer" id="sc-ans-${i}">
+        <p class="sc-example">${s.example}</p>
+        <p class="sc-note">💡 ${s.note}</p>
+      </div>
+    </div>`).join('');
+}
+
+function toggleScenario(i) { document.getElementById('sc-ans-' + i).classList.toggle('visible'); }
+
+// STORY
+let storyStep = 0;
+const REAL_STEPS = STORY_STEPS.filter(s => !s.final);
+
+function buildStory() { renderStoryStep(); }
+
+function renderStoryStep() {
+  const main = document.getElementById('story-main');
+  const complete = document.getElementById('story-complete');
+  if (storyStep >= REAL_STEPS.length) {
+    main.style.display = 'none';
+    complete.classList.add('visible');
+    let full = '';
+    STORY_STEPS.forEach(s => { full += s.before + s.after; });
+    document.getElementById('story-full').textContent = full;
+    return;
+  }
+  const s = REAL_STEPS[storyStep];
+  let textSoFar = '';
+  for (let i = 0; i < storyStep; i++) { textSoFar += REAL_STEPS[i].before + REAL_STEPS[i].after; }
+  textSoFar += s.before;
+  const optsHtml = s.opts.map((o, i) => `<button class="story-opt" onclick="chooseOpt(${i})">"${o}"</button>`).join('');
+  main.innerHTML = `
+    <div class="story-wrap">
+      <p class="story-progress">Step ${storyStep + 1} of ${REAL_STEPS.length}</p>
+      <p class="story-text">${textSoFar}<span style="color:#9a9688"> [___]</span></p>
+      <p class="story-cue">Choose the phrase that fits:</p>
+      <div class="story-options">${optsHtml}</div>
+      <div class="story-fb" id="story-fb"></div>
+    </div>`;
+}
+
+function chooseOpt(idx) {
+  const s = REAL_STEPS[storyStep];
+  const fb = document.getElementById('story-fb');
+  if (!fb) return;
+  if (idx === s.correct) {
+    fb.className = 'story-fb correct'; fb.textContent = '✓ Correct — continuing the story...'; fb.style.display = 'block';
+    setTimeout(() => { storyStep++; renderStoryStep(); }, 950);
+  } else {
+    fb.className = 'story-fb wrong'; fb.textContent = s.fb_wrong; fb.style.display = 'block';
+  }
+}
+
+function restartStory() {
+  storyStep = 0;
+  document.getElementById('story-main').style.display = '';
+  document.getElementById('story-complete').classList.remove('visible');
+  renderStoryStep();
+}
+
+buildFlashcards();
+buildFill();
+buildMatch();
+buildRegister();
+buildScenarios();
+buildStory();
+</script>
+</body>
+</html>
