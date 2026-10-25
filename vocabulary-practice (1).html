@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Practice — Fudge, Curb, Avert &amp; more</title>
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#fbfcfe;
+    --surface:#ffffff;
+    --surface-2:#f4f7fb;
+    --ink:#1f2733;
+    --ink-soft:#74829a;
+    --line:#e6ecf4;
+    --accent:#3366e6;
+    --accent-soft:#edf3ff;
+    --good:#1a7a4e;
+    --good-bg:#eaf8f0;
+    --bad:#c43c30;
+    --bad-bg:#fdeeec;
+    --warn:#9a7312;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(31,39,51,.04),0 10px 30px rgba(31,39,51,.05);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:28px 16px 80px}
+  header h1{font-size:1.65rem;line-height:1.2;margin:0 0 6px;letter-spacing:-.01em}
+  header p{margin:0;color:var(--ink-soft);font-size:.95rem}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 4px}
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:.82rem;color:var(--ink-soft)}
+  nav{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 24px;position:sticky;top:0;background:rgba(251,252,254,.88);backdrop-filter:saturate(180%) blur(10px);-webkit-backdrop-filter:saturate(180%) blur(10px);padding:11px 0;z-index:5;border-bottom:1px solid var(--line)}
+  nav button{
+    font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink-soft);padding:8px 14px;border-radius:999px;transition:.15s;
+  }
+  nav button:hover{border-color:var(--accent)}
+  nav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  section[hidden]{display:none}
+  h2{font-size:1.15rem;margin:0 0 4px;letter-spacing:-.01em}
+  .lead{color:var(--ink-soft);font-size:.92rem;margin:0 0 20px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .btn{
+    font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:10px;transition:.15s;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(51,102,230,.22)}
+  .btn.primary:hover{opacity:.88;color:#fff;border-color:var(--accent)}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+  .score{font-size:.9rem;font-weight:600;color:var(--ink-soft);margin-left:auto}
+
+  /* flashcards */
+  .fc-stage{perspective:1200px;margin-bottom:12px}
+  .fc{
+    position:relative;width:100%;min-height:270px;cursor:pointer;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.1,.2,1);
+  }
+  .fc.flipped{transform:rotateY(180deg)}
+  .fc-face{
+    position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:26px 24px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .fc-back{transform:rotateY(180deg);justify-content:flex-start;overflow:auto}
+  .fc-front{background:linear-gradient(160deg,#ffffff 0%,#f7faff 100%)}
+  .fc-term{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;text-align:center;color:var(--ink)}
+  .fc-pos{text-align:center;color:var(--ink-soft);font-size:.85rem;margin-top:8px;font-style:italic}
+  .fc-hintline{text-align:center;color:var(--ink-soft);font-size:.78rem;margin-top:auto;padding-top:18px}
+  .fc-def{font-weight:600;margin:0 0 10px}
+  .fc-ex{margin:0 0 6px;padding-left:14px;border-left:3px solid var(--accent-soft);color:var(--ink-soft);font-size:.93rem}
+  .fc-meta{margin-top:12px;font-size:.84rem;color:var(--ink-soft)}
+  .fc-meta b{color:var(--ink)}
+  .tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 9px;font-size:.74rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+
+  /* questions */
+  .q{border-bottom:1px solid var(--line);padding:14px 0}
+  .q:last-child{border-bottom:none}
+  .q-text{margin:0 0 10px}
+  .q-num{color:var(--ink-soft);font-weight:700;margin-right:6px}
+  .opts{display:flex;flex-wrap:wrap;gap:6px}
+  .opt{
+    font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--ink);padding:6px 14px;border-radius:9px;transition:.12s;
+  }
+  .opt:hover{border-color:var(--accent)}
+  .opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .opt.wide{text-align:left;flex:1 1 320px}
+  .fb{font-size:.88rem;margin-top:9px;padding:8px 12px;border-radius:9px;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:var(--good-bg);color:var(--good)}
+  .fb.no{background:var(--bad-bg);color:var(--bad)}
+  input[type=text]{
+    font:inherit;font-size:1rem;border:none;border-bottom:2px solid var(--accent);
+    background:var(--surface-2);color:var(--ink);padding:3px 8px;border-radius:6px 6px 0 0;
+    min-width:140px;width:150px;
+  }
+  input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px}
+  input.ok{border-bottom-color:var(--good);background:var(--good-bg)}
+  input.no{border-bottom-color:var(--bad);background:var(--bad-bg)}
+  .bank{background:var(--surface-2);border:1px dashed var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px}
+  .bank h3{margin:0 0 8px;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .bank ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+  .bank li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.86rem}
+  select{
+    font:inherit;font-size:.95rem;background:var(--surface-2);color:var(--ink);
+    border:1px solid var(--accent);border-radius:8px;padding:3px 6px;max-width:100%;
+  }
+  select.ok{border-color:var(--good);background:var(--good-bg)}
+  select.no{border-color:var(--bad);background:var(--bad-bg)}
+  .story{font-size:1.02rem;line-height:2.1}
+  .story p{margin:0 0 14px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  td{padding:10px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  td:first-child{font-weight:600;white-space:nowrap;padding-right:14px}
+  textarea{
+    font:inherit;font-size:.95rem;width:100%;min-height:76px;background:var(--surface-2);
+    color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical;
+  }
+  textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+  details{margin-top:8px;font-size:.9rem}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  details p{color:var(--ink-soft);margin:8px 0 0;font-style:italic}
+  .hintbtn{background:none;border:none;color:var(--accent);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;padding:0 0 0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Fudge it, curb it, avert it</h1>
+  <p>Vocabulary practice · 9 items · C1–C2</p>
+  <div class="chips">
+    <span class="chip">fudge</span><span class="chip">curb</span><span class="chip">avert</span>
+    <span class="chip">shy away from</span><span class="chip">outweigh</span><span class="chip">tickle one's fancy</span>
+    <span class="chip">be a sucker for</span><span class="chip">put sb up</span><span class="chip">thrift</span>
+  </div>
+</header>
+
+<nav id="tabs">
+  <button data-tab="t1" aria-selected="true">1 · Flashcards</button>
+  <button data-tab="t2" aria-selected="false">2 · True / False</button>
+  <button data-tab="t3" aria-selected="false">3 · Gaps</button>
+  <button data-tab="t4" aria-selected="false">4 · Register</button>
+  <button data-tab="t5" aria-selected="false">5 · Story</button>
+</nav>
+
+<!-- 1 FLASHCARDS -->
+<section id="t1">
+  <h2>Flashcards</h2>
+  <p class="lead">Read the phrase, say what it means and make your own sentence — <em>then</em> flip the card.</p>
+  <div class="fc-stage">
+    <div class="fc" id="fc">
+      <div class="fc-face fc-front">
+        <div class="fc-term" id="fcTerm"></div>
+        <div class="fc-pos" id="fcPos"></div>
+        <div class="fc-hintline">tap the card to flip</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div><span class="tag" id="fcReg"></span></div>
+        <p class="fc-def" id="fcDef"></p>
+        <div id="fcEx"></div>
+        <div class="fc-meta" id="fcMeta"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn" id="fcPrev">← Previous</button>
+    <button class="btn primary" id="fcNext">Next →</button>
+    <button class="btn" id="fcShuffle">Shuffle</button>
+    <span class="score" id="fcCount"></span>
+  </div>
+</section>
+
+<!-- 2 TRUE FALSE -->
+<section id="t2" hidden>
+  <h2>True or false?</h2>
+  <p class="lead">Decide whether each statement about meaning or usage is true. Be ready to correct the false ones.</p>
+  <div class="card" id="tfList"></div>
+  <div class="row">
+    <button class="btn primary" id="tfCheck">Check answers</button>
+    <button class="btn" id="tfReset">Reset</button>
+    <span class="score" id="tfScore"></span>
+  </div>
+</section>
+
+<!-- 3 GAPS -->
+<section id="t3" hidden>
+  <h2>Fill in the gaps</h2>
+  <p class="lead">One word per gap. Watch the <strong>form</strong> — tense, third person, participle.</p>
+  <div class="bank">
+    <h3>Word bank — use the correct form</h3>
+    <ul>
+      <li>avert</li><li>curb (×2)</li><li>fudge (×2)</li><li>outweigh</li>
+      <li>put … up</li><li>shy away from</li><li>a sucker for</li><li>thrift</li><li>tickle sb's fancy</li>
+    </ul>
+  </div>
+  <div class="card" id="gapList"></div>
+  <div class="row">
+    <button class="btn primary" id="gapCheck">Check answers</button>
+    <button class="btn" id="gapReset">Reset</button>
+    <span class="score" id="gapScore"></span>
+  </div>
+</section>
+
+<!-- 4 REGISTER -->
+<section id="t4" hidden>
+  <h2>Register</h2>
+  <p class="lead">Part A — where does each item belong? Part B — choose the version that fits the situation.</p>
+
+  <h3 style="font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px">Part A · Sort them</h3>
+  <div class="card" id="regList"></div>
+  <div class="row">
+    <button class="btn primary" id="regCheck">Check Part A</button>
+    <button class="btn" id="regReset">Reset</button>
+    <span class="score" id="regScore"></span>
+  </div>
+
+  <h3 style="font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:28px 0 8px">Part B · Which one fits?</h3>
+  <div class="card" id="ctxList"></div>
+  <div class="row">
+    <button class="btn primary" id="ctxCheck">Check Part B</button>
+    <button class="btn" id="ctxReset">Reset</button>
+    <span class="score" id="ctxScore"></span>
+  </div>
+</section>
+
+<!-- 5 STORY -->
+<section id="t5" hidden>
+  <h2>The Bristol accounts</h2>
+  <p class="lead">Complete the story, then answer the questions below using the target language.</p>
+  <div class="card story" id="story"></div>
+  <div class="row">
+    <button class="btn primary" id="stCheck">Check the story</button>
+    <button class="btn" id="stReset">Reset</button>
+    <span class="score" id="stScore"></span>
+  </div>
+
+  <h3 style="font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:30px 0 8px">Over to you</h3>
+  <div class="card" id="prodList"></div>
+</section>
+
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const CARDS = [
+  {term:"to fudge (the figures / the issue)", pos:"verb", reg:"neutral–informal",
+   def:"To present facts or numbers in a vague or dishonest way; to avoid giving a clear answer.",
+   ex:["The company fudged the figures to hide a third-quarter loss.",
+       "Stop fudging the issue — did you read the report or not?"],
+   meta:"<b>Collocations:</b> fudge the figures / the numbers / the data / the issue / the question · a fudged compromise"},
+  {term:"to curb sth · to put a curb on sth", pos:"verb + noun", reg:"formal–neutral",
+   def:"To limit or control something harmful or excessive.",
+   ex:["New rules are designed to curb food waste in supermarkets.",
+       "The board has put a curb on overtime spending."],
+   meta:"<b>Collocations:</b> curb inflation / emissions / spending / immigration / your enthusiasm · put a curb on sth"},
+  {term:"to avert", pos:"verb", reg:"formal",
+   def:"1) To prevent something bad from happening. 2) To turn your eyes or face away.",
+   ex:["Talks through the night averted a nationwide strike.",
+       "She averted her eyes as the needle went in."],
+   meta:"<b>Collocations:</b> avert a crisis / disaster / war / strike / catastrophe · avert your eyes / gaze"},
+  {term:"to shy away from sth", pos:"phrasal verb", reg:"neutral",
+   def:"To avoid doing something because you feel nervous, unsure or unwilling.",
+   ex:["Most politicians shy away from that question.",
+       "He never shies away from a difficult conversation."],
+   meta:"<b>Pattern:</b> shy away from + noun / -ing. Often used in the negative to praise someone."},
+  {term:"to outweigh", pos:"verb", reg:"formal–neutral",
+   def:"To be greater in importance or value than something else.",
+   ex:["The benefits clearly outweigh the risks.",
+       "For most families, the costs far outweigh any saving."],
+   meta:"<b>Collocations:</b> benefits / advantages outweigh the risks / costs / drawbacks · far, clearly, easily outweigh. <b>Not used in continuous tenses.</b>"},
+  {term:"to tickle one's fancy", pos:"idiom", reg:"informal",
+   def:"To appeal to you; to be the kind of thing you find attractive or amusing.",
+   ex:["Have a look at the menu and see if anything tickles your fancy.",
+       "The job description didn't really tickle my fancy."],
+   meta:"<b>Note:</b> the possessive changes — my / your / his fancy. Mostly BrE, often slightly playful."},
+  {term:"to be a sucker for sth", pos:"idiom", reg:"informal",
+   def:"To be unable to resist something you love — usually said with a shrug.",
+   ex:["I'm a sucker for a bad rom-com.",
+       "He's a sucker for flattery, so lay it on thick."],
+   meta:"<b>Pattern:</b> be a sucker for + noun. Self-deprecating; avoid in formal writing."},
+  {term:"to put sb up", pos:"phrasal verb (separable)", reg:"neutral–informal",
+   def:"To let someone stay in your home for a short time.",
+   ex:["Any chance you could put me up for a couple of nights?",
+       "They put us up in the spare room."],
+   meta:"<b>Careful:</b> ≠ <i>put up with sb</i> (= tolerate). Separable: put me up / put up my cousin."},
+  {term:"to thrift", pos:"verb (modern, mainly AmE)", reg:"informal",
+   def:"To shop for second-hand clothes and things in charity or thrift shops.",
+   ex:["I thrifted this coat for eight quid.",
+       "We spent Saturday thrifting in Brighton."],
+   meta:"<b>Also:</b> a thrifted jacket (adj.) · thrifting (noun). Common online; rare in formal writing."}
+];
+
+const TF = [
+  {t:"If you <em>fudge the figures</em>, you present them clearly and honestly.", a:false,
+   why:"The opposite — you blur or distort them so they look better than they are."},
+  {t:"<em>Curb spending</em> and <em>put a curb on spending</em> mean the same thing.", a:true,
+   why:"<em>Curb</em> works as both a verb and a noun with almost identical meaning."},
+  {t:"<em>Avert</em> can mean both 'prevent a disaster' and 'turn your eyes away'.", a:true,
+   why:"Two senses: avert a crisis / avert your eyes."},
+  {t:"'He shied away from the topic' means he discussed it in detail.", a:false,
+   why:"He avoided it — out of nervousness or reluctance."},
+  {t:"'The risks outweigh the benefits' suggests it is probably a good idea.", a:false,
+   why:"The risks are the heavier side, so it is probably a bad idea."},
+  {t:"<em>Tickle your fancy</em> would sit comfortably in an academic essay.", a:false,
+   why:"It's informal and playful. In an essay you'd write <em>appeal to</em> or <em>be of interest to</em>."},
+  {t:"'I'm a sucker for cheesecake' means you can't resist it.", a:true,
+   why:"And it implies you know you shouldn't."},
+  {t:"'My aunt put me up for a week' means she tolerated my behaviour for a week.", a:false,
+   why:"That's <em>put up with</em>. <em>Put sb up</em> = give them a place to stay."},
+  {t:"A <em>thrifted</em> jacket is normally one bought second-hand.", a:true,
+   why:"From thrift / charity shops."},
+  {t:"<em>Outweigh</em> is commonly used in the continuous: 'The benefits are outweighing the risks.'", a:false,
+   why:"It's a stative verb — use the simple: 'The benefits outweigh the risks.'"},
+  {t:"<em>Avert</em> is more formal than 'stop something from happening'.", a:true,
+   why:"It belongs to news reports, official statements and reports."}
+];
+
+const GAPS = [
+  {pre:"Emergency talks between the union and management ", post:" a strike that would have shut down every airport in the country.",
+   a:["averted"], hint:"formal verb for 'prevented'"},
+  {pre:"The auditors found that someone had ", post:" the figures for three consecutive quarters.",
+   a:["fudged"], hint:"past participle"},
+  {pre:"I know it's a terrible film, but I'm a ", post:" for a good disaster movie.",
+   a:["sucker"], hint:"noun in a fixed phrase"},
+  {pre:"The new tax is designed to ", post:" speculation in the housing market.",
+   a:["curb"], hint:"infinitive"},
+  {pre:"Honestly, two weeks in a tent doesn't really ", post:" my fancy.",
+   a:["tickle"], hint:"after 'doesn't' — bare infinitive"},
+  {pre:"For most families, the cost of the scheme far ", post:" any benefit they might see.",
+   a:["outweighs"], hint:"third person singular"},
+  {pre:"He's a good journalist precisely because he doesn't ", post:" away from difficult questions.",
+   a:["shy"], hint:"bare infinitive"},
+  {pre:"If you're ever in Lisbon, my brother can ", post:" you up for a couple of nights.",
+   a:["put"], hint:"after 'can'"},
+  {pre:"Half my wardrobe is ", post:" — I haven't bought anything new in two years.",
+   a:["thrifted"], hint:"passive / adjective form"},
+  {pre:"The government has put a ", post:" on public-sector pay rises.",
+   a:["curb"], hint:"here it's a noun"},
+  {pre:"Stop ", post:" the issue and give me a straight answer.",
+   a:["fudging"], hint:"after 'stop' — -ing form"},
+  {pre:"She ", post:" her eyes as the surgeon made the first incision.",
+   a:["averted"], hint:"past simple"}
+];
+
+const REG = [
+  {item:"avert a crisis", a:"Formal", why:"News reports, official statements, written registers."},
+  {item:"curb / put a curb on sth", a:"Formal", why:"Policy, economics, journalism."},
+  {item:"outweigh the drawbacks", a:"Formal", why:"Essays, reports, argument writing."},
+  {item:"fudge the figures", a:"Neutral", why:"Fine in broadsheet journalism and everyday speech; slightly blunt for an official report."},
+  {item:"shy away from sth", a:"Neutral", why:"Works in an essay and in conversation alike."},
+  {item:"put sb up", a:"Neutral", why:"Everyday phrasal verb — natural in speech and friendly emails."},
+  {item:"tickle one's fancy", a:"Informal", why:"Playful idiom — speech and casual writing only."},
+  {item:"be a sucker for sth", a:"Informal", why:"Self-deprecating slang."},
+  {item:"to thrift / thrifted", a:"Informal", why:"Modern colloquial usage, very common online."}
+];
+
+const CTX = [
+  {ctx:"A newspaper headline about a rail strike called off at midnight:",
+   opts:["Last-minute deal averts rail strike","Last-minute deal stops rail strike from happening"], a:0,
+   why:"Headlines and news writing go for the formal, compact <em>avert</em>."},
+  {ctx:"A text to your closest friend before a trip to her city:",
+   opts:["Would it be possible for you to accommodate me on Friday?","Any chance you could put me up on Friday?"], a:1,
+   why:"<em>Put me up</em> is the natural spoken choice; the other sounds like a hotel enquiry."},
+  {ctx:"The conclusion of an argumentative essay:",
+   opts:["On balance, the advantages outweigh the disadvantages.","On balance, the good bits are a lot better than the bad bits."], a:0,
+   why:"<em>Outweigh</em> is the standard academic collocation."},
+  {ctx:"Explaining to a friend why you've bought a fourth scented candle:",
+   opts:["I am regrettably unable to resist scented candles.","What can I say — I'm a sucker for a scented candle."], a:1,
+   why:"The idiom carries the shrug; the formal version sounds like a confession in court."},
+  {ctx:"An official statement from the central bank:",
+   opts:["further measures to curb inflation","further measures to put the brakes on prices"], a:0,
+   why:"<em>Curb</em> is the institutional verb of choice here."},
+  {ctx:"A waiter handing you the dessert menu:",
+   opts:["Let me know if anything tickles your fancy.","Please indicate whether any item meets your requirements."], a:0,
+   why:"Warm, idiomatic service English — the second sounds like a form."}
+];
+
+const STORY = [
+  {pre:"When I moved to Bristol in March I had nowhere to live, so my cousin Dara agreed to ",
+   opts:["put up with me","put me up","put me down"], a:1,
+   post:" for a fortnight. "},
+  {pre:"Her flat was tiny and almost everything in it had been ",
+   opts:["thrift","thrifting","thrifted"], a:2,
+   post:" — mismatched chairs, a lamp shaped like a swan, a rug with a mysterious history. "},
+  {pre:"“If anything ",
+   opts:["tickles your fancy","curbs your fancy","tickle your fancy"], a:0,
+   post:", take it,” she said. “I'm "},
+  {pre:"",
+   opts:["a sucker of","a sucker for","sucker to"], a:1,
+   post:" a car-boot sale and it's got completely out of hand.”"},
+  {pre:"My new job was at a small environmental charity campaigning to ",
+   opts:["avert","outweigh","curb"], a:2,
+   post:" emissions from the city's bus fleet. Three weeks in, I was given the annual accounts to format, and noticed that the travel costs for one department had been quietly "},
+  {pre:"",
+   opts:["averted","fudged","curbed"], a:1,
+   post:" — about £40,000 of them."},
+  {pre:"I didn't want to say anything. Dara, who never ",
+   opts:["shy away from","shies away of","shies away from"], a:2,
+   post:" an awkward conversation, put it bluntly: “The risk of staying quiet "},
+  {pre:"",
+   opts:["is outweighing","outweighed","outweighs"], a:2,
+   post:" the risk of looking like an idiot.” So I emailed the trustees that night."},
+  {pre:"Two meetings and one very cold Tuesday later, the charity had ",
+   opts:["curbed","averted","fudged"], a:1,
+   post:" what the chair afterwards called “an absolutely avoidable scandal”. I'm still sleeping on Dara's sofa."}
+];
+
+const PROD = [
+  {q:"Name one thing you never shy away from, and one thing you always shy away from. Why?",
+   model:"I never shy away from asking a question in a seminar, but I shy away from phoning anyone — I'll send three messages rather than make one call."},
+  {q:"What are you a sucker for? Be honest.",
+   model:"I'm a sucker for a hotel breakfast buffet. I'm not even hungry — I just can't walk past it."},
+  {q:"Describe a decision where the benefits clearly outweighed the drawbacks.",
+   model:"Moving out of my parents' flat cost me nearly half my salary, but the independence easily outweighed the financial hit."},
+  {q:"Has anyone ever put you up — or have you put someone up? How did it go?",
+   model:"A friend put me up for three weeks in Kazan when my flat flooded. I'd like to say I was an easy guest."},
+  {q:"You're writing a short policy paragraph. Use <em>curb</em> and <em>avert</em> in it.",
+   model:"Unless the city curbs the number of cars entering the centre at peak hours, it will not avert a serious air-quality crisis by 2030."},
+  {q:"Describe something you've thrifted, or something in a shop window that recently tickled your fancy.",
+   model:"I thrifted a wool coat two sizes too big last winter. Nothing in the window tickled my fancy, but the coat on the rail at the back did."}
+];
+
+/* ---------------- HELPERS ---------------- */
+const $ = s => document.querySelector(s);
+const norm = s => s.toLowerCase().trim().replace(/[.,!?;:'"’]/g,"").replace(/\s+/g," ");
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+/* ---------------- TABS ---------------- */
+document.querySelectorAll("#tabs button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll("#tabs button").forEach(x=>x.setAttribute("aria-selected","false"));
+    b.setAttribute("aria-selected","true");
+    ["t1","t2","t3","t4","t5"].forEach(id=>document.getElementById(id).hidden = (id!==b.dataset.tab));
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* ---------------- 1 FLASHCARDS ---------------- */
+let order = CARDS.map((_,i)=>i), ci = 0;
+const fc = $("#fc");
+function renderCard(){
+  const c = CARDS[order[ci]];
+  fc.classList.remove("flipped");
+  $("#fcTerm").textContent = c.term;
+  $("#fcPos").textContent = c.pos;
+  $("#fcReg").textContent = c.reg;
+  $("#fcDef").textContent = c.def;
+  $("#fcEx").innerHTML = c.ex.map(e=>`<p class="fc-ex">${esc(e)}</p>`).join("");
+  $("#fcMeta").innerHTML = c.meta;
+  $("#fcCount").textContent = `${ci+1} / ${CARDS.length}`;
+}
+fc.addEventListener("click",()=>fc.classList.toggle("flipped"));
+$("#fcNext").addEventListener("click",()=>{ci=(ci+1)%CARDS.length;renderCard();});
+$("#fcPrev").addEventListener("click",()=>{ci=(ci-1+CARDS.length)%CARDS.length;renderCard();});
+$("#fcShuffle").addEventListener("click",()=>{
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  ci=0;renderCard();
+});
+renderCard();
+
+/* ---------------- 2 TRUE / FALSE ---------------- */
+const tfPicks = {};
+$("#tfList").innerHTML = TF.map((q,i)=>`
+  <div class="q">
+    <p class="q-text"><span class="q-num">${i+1}</span>${q.t}</p>
+    <div class="opts">
+      <button class="opt" data-tf="${i}" data-v="true" aria-pressed="false">True</button>
+      <button class="opt" data-tf="${i}" data-v="false" aria-pressed="false">False</button>
+    </div>
+    <div class="fb" id="tffb${i}"></div>
+  </div>`).join("");
+document.querySelectorAll("[data-tf]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const i=b.dataset.tf;
+    document.querySelectorAll(`[data-tf="${i}"]`).forEach(x=>x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    tfPicks[i]=(b.dataset.v==="true");
+  });
+});
+$("#tfCheck").addEventListener("click",()=>{
+  let s=0;
+  TF.forEach((q,i)=>{
+    const fb=document.getElementById("tffb"+i);
+    if(tfPicks[i]===undefined){fb.className="fb no show";fb.innerHTML="No answer chosen.";return;}
+    const ok = tfPicks[i]===q.a;
+    if(ok)s++;
+    fb.className="fb show "+(ok?"ok":"no");
+    fb.innerHTML=(ok?"✓ ":"✗ ")+`<strong>${q.a?"TRUE":"FALSE"}.</strong> ${q.why}`;
+  });
+  $("#tfScore").textContent=`${s} / ${TF.length}`;
+});
+$("#tfReset").addEventListener("click",()=>{
+  Object.keys(tfPicks).forEach(k=>delete tfPicks[k]);
+  document.querySelectorAll("[data-tf]").forEach(x=>x.setAttribute("aria-pressed","false"));
+  TF.forEach((_,i)=>document.getElementById("tffb"+i).className="fb");
+  $("#tfScore").textContent="";
+});
+
+/* ---------------- 3 GAPS ---------------- */
+$("#gapList").innerHTML = GAPS.map((g,i)=>`
+  <div class="q">
+    <p class="q-text"><span class="q-num">${i+1}</span>${esc(g.pre)}<input type="text" id="gi${i}" autocomplete="off" spellcheck="false">${esc(g.post)}
+    <button class="hintbtn" data-hint="${i}">hint</button></p>
+    <div class="fb" id="gfb${i}"></div>
+  </div>`).join("");
+document.querySelectorAll("[data-hint]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const i=b.dataset.hint, fb=document.getElementById("gfb"+i);
+    fb.className="fb show"; fb.style.background="var(--surface-2)"; fb.style.color="var(--ink-soft)";
+    fb.textContent="Hint: "+GAPS[i].hint;
+  });
+});
+$("#gapCheck").addEventListener("click",()=>{
+  let s=0;
+  GAPS.forEach((g,i)=>{
+    const inp=document.getElementById("gi"+i), fb=document.getElementById("gfb"+i);
+    const ok=g.a.some(a=>norm(a)===norm(inp.value));
+    inp.className = ok?"ok":"no";
+    fb.style.background=""; fb.style.color="";
+    fb.className="fb show "+(ok?"ok":"no");
+    fb.innerHTML = ok ? "✓ Correct." : "✗ Answer: <strong>"+g.a[0]+"</strong>";
+    if(ok)s++;
+  });
+  $("#gapScore").textContent=`${s} / ${GAPS.length}`;
+});
+$("#gapReset").addEventListener("click",()=>{
+  GAPS.forEach((_,i)=>{
+    const inp=document.getElementById("gi"+i);inp.value="";inp.className="";
+    const fb=document.getElementById("gfb"+i);fb.className="fb";fb.style.background="";fb.style.color="";
+  });
+  $("#gapScore").textContent="";
+});
+
+/* ---------------- 4 REGISTER ---------------- */
+const LEVELS=["Formal","Neutral","Informal"];
+const regPicks={};
+$("#regList").innerHTML = REG.map((r,i)=>`
+  <div class="q">
+    <p class="q-text"><span class="q-num">${i+1}</span><strong>${r.item}</strong></p>
+    <div class="opts">${LEVELS.map(l=>`<button class="opt" data-reg="${i}" data-v="${l}" aria-pressed="false">${l}</button>`).join("")}</div>
+    <div class="fb" id="rfb${i}"></div>
+  </div>`).join("");
+document.querySelectorAll("[data-reg]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const i=b.dataset.reg;
+    document.querySelectorAll(`[data-reg="${i}"]`).forEach(x=>x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    regPicks[i]=b.dataset.v;
+  });
+});
+$("#regCheck").addEventListener("click",()=>{
+  let s=0;
+  REG.forEach((r,i)=>{
+    const fb=document.getElementById("rfb"+i);
+    const ok=regPicks[i]===r.a; if(ok)s++;
+    fb.className="fb show "+(ok?"ok":"no");
+    fb.innerHTML=(ok?"✓ ":"✗ ")+`<strong>${r.a}.</strong> ${r.why}`;
+  });
+  $("#regScore").textContent=`${s} / ${REG.length}`;
+});
+$("#regReset").addEventListener("click",()=>{
+  Object.keys(regPicks).forEach(k=>delete regPicks[k]);
+  document.querySelectorAll("[data-reg]").forEach(x=>x.setAttribute("aria-pressed","false"));
+  REG.forEach((_,i)=>document.getElementById("rfb"+i).className="fb");
+  $("#regScore").textContent="";
+});
+
+const ctxPicks={};
+$("#ctxList").innerHTML = CTX.map((c,i)=>`
+  <div class="q">
+    <p class="q-text"><span class="q-num">${i+1}</span>${c.ctx}</p>
+    <div class="opts">${c.opts.map((o,j)=>`<button class="opt wide" data-ctx="${i}" data-j="${j}" aria-pressed="false">${"ab"[j]}) ${esc(o)}</button>`).join("")}</div>
+    <div class="fb" id="cfb${i}"></div>
+  </div>`).join("");
+document.querySelectorAll("[data-ctx]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const i=b.dataset.ctx;
+    document.querySelectorAll(`[data-ctx="${i}"]`).forEach(x=>x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    ctxPicks[i]=+b.dataset.j;
+  });
+});
+$("#ctxCheck").addEventListener("click",()=>{
+  let s=0;
+  CTX.forEach((c,i)=>{
+    const fb=document.getElementById("cfb"+i);
+    const ok=ctxPicks[i]===c.a; if(ok)s++;
+    fb.className="fb show "+(ok?"ok":"no");
+    fb.innerHTML=(ok?"✓ ":"✗ ")+`<strong>${"ab"[c.a]})</strong> ${c.why}`;
+  });
+  $("#ctxScore").textContent=`${s} / ${CTX.length}`;
+});
+$("#ctxReset").addEventListener("click",()=>{
+  Object.keys(ctxPicks).forEach(k=>delete ctxPicks[k]);
+  document.querySelectorAll("[data-ctx]").forEach(x=>x.setAttribute("aria-pressed","false"));
+  CTX.forEach((_,i)=>document.getElementById("cfb"+i).className="fb");
+  $("#ctxScore").textContent="";
+});
+
+/* ---------------- 5 STORY ---------------- */
+$("#story").innerHTML = "<p>" + STORY.map((s,i)=>
+  esc(s.pre) +
+  `<select id="ss${i}"><option value="-1">— choose —</option>` +
+  s.opts.map((o,j)=>`<option value="${j}">${esc(o)}</option>`).join("") +
+  `</select>` + esc(s.post)
+).join("") + "</p>";
+$("#stCheck").addEventListener("click",()=>{
+  let s=0;
+  STORY.forEach((q,i)=>{
+    const sel=document.getElementById("ss"+i);
+    const ok=+sel.value===q.a; if(ok)s++;
+    sel.className = ok?"ok":"no";
+    if(!ok) sel.value = q.a;
+  });
+  $("#stScore").textContent=`${s} / ${STORY.length}`;
+});
+$("#stReset").addEventListener("click",()=>{
+  STORY.forEach((_,i)=>{const sel=document.getElementById("ss"+i);sel.value="-1";sel.className="";});
+  $("#stScore").textContent="";
+});
+
+/* ---------------- PRODUCTION ---------------- */
+$("#prodList").innerHTML = PROD.map((p,i)=>`
+  <div class="q">
+    <p class="q-text"><span class="q-num">${i+1}</span>${p.q}</p>
+    <textarea placeholder="Write 1–3 sentences…"></textarea>
+    <details><summary>Sample answer</summary><p>${esc(p.model)}</p></details>
+  </div>`).join("");
+</script>
+</body>
+</html>
